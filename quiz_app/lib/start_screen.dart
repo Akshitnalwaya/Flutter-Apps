@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
-
+  const StartScreen(this.startQuiz, {super.key});
+  final void Function() startQuiz;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -16,15 +16,13 @@ class StartScreen extends StatelessWidget {
           //     width: 300,
           //   ),
           // ),
-            Image.asset(
-              'assets/images/quiz-logo.png',
-              width: 300,
-              color: const Color.fromARGB(150, 255, 255, 255),
-            ),
-          
-          const SizedBox(
-            height: 79,
+          Image.asset(
+            'assets/images/quiz-logo.png',
+            width: 300,
+            color: const Color.fromARGB(150, 255, 255, 255),
           ),
+
+          const SizedBox(height: 79),
           const Text(
             "Click Me",
             style: TextStyle(
@@ -32,13 +30,14 @@ class StartScreen extends StatelessWidget {
               fontSize: 23,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           OutlinedButton.icon(
-            onPressed: () {},
+            onPressed: startQuiz,
+            // onPressed: () {
+            //   startQuiz();
+            // },
             label: const Text("Press me"),
-            icon: const Icon(Icons.arrow_outward), 
+            icon: const Icon(Icons.arrow_outward),
             style: OutlinedButton.styleFrom(
               foregroundColor: const Color.fromARGB(255, 0, 0, 0),
             ),
