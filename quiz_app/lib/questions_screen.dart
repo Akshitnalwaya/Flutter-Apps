@@ -20,27 +20,37 @@ class QuestionsScreen
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
-  Widget build(
-
-  
-    context,
-  ) {
+  Widget build(context)
+   {
+    final currentQuestion = questions[0];
     return SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            "Heloo",
-            style: TextStyle(
+           Text(
+             currentQuestion.text,
+             style: TextStyle(
               color: Colors.amberAccent,
-              fontSize: 45,
+              fontSize: 15,
             ),
           ),
           const SizedBox(
             height: 14,
           ),
-          AnswerButton('Looking for the answer', (){})
+          AnswerButton(currentQuestion.answers[0], (){}),
+          const SizedBox(
+            height: 14,
+          ),
+          AnswerButton(currentQuestion.answers[1], (){})  ,
+          const SizedBox(
+            height: 14,
+          ),
+          AnswerButton(currentQuestion.answers[2], (){}),
+          const SizedBox(
+            height: 14,
+          ),
+          AnswerButton(currentQuestion.answers[3], (){})
         ],
       ),
     );
