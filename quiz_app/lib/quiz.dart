@@ -31,6 +31,17 @@ class _QuizState
   //   super.initState();
   // }
 
+  final List<
+    String
+  >
+  selectedAnswers = [];
+
+  void chooseAnser(
+    String answer,
+  ) {
+    selectedAnswers.add(answer);
+  }
+
   void switchScreen() {
     setState(
       () {
@@ -71,7 +82,7 @@ class _QuizState
               ? StartScreen(
                   switchScreen,
                 )
-              : const QuestionsScreen(),
+              : QuestionsScreen(onSelectAnswer: chooseAnser,),
         ),
       ),
     );
