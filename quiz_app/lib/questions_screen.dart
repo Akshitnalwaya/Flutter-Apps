@@ -2,27 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
 
-class QuestionsScreen
-    extends
-        StatefulWidget {
+class QuestionsScreen extends StatefulWidget {
   const QuestionsScreen({
     super.key,
   });
 
   @override
-  State<
-    QuestionsScreen
-  >
+  State<QuestionsScreen>
   createState() {
     return _QuestionsScreenState();
   }
 }
 
-class _QuestionsScreenState
-    extends
-        State<
-          QuestionsScreen
-        > {
+
+class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(
     context,
@@ -47,12 +40,12 @@ class _QuestionsScreenState
             const SizedBox(
               height: 14,
             ),
-            ...currentQuestion.answers.map(
+            ...currentQuestion.getShuffledAnswers().map(
               (
-                item,
+                answer,
               ) {
                 return AnswerButton(
-                  item,
+                  answer,
                   () {},
                 );
                 // return AnswerButton(currentQuestion.answers[item], (){}),
