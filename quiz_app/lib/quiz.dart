@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/questions_screen.dart';
 import 'package:quiz_app/start_screen.dart';
 
@@ -31,7 +32,7 @@ class _QuizState
   //   super.initState();
   // }
 
-  final List<
+  List<
     String
   >
   selectedAnswers = [];
@@ -39,7 +40,18 @@ class _QuizState
   void chooseAnser(
     String answer,
   ) {
-    selectedAnswers.add(answer);
+    selectedAnswers.add(
+      answer,
+    );
+    if (selectedAnswers.length ==
+        questions.length) {
+      setState(
+        () {
+          selectedAnswers = [];
+          activeScreen = 'start-screen';
+        },
+      );
+    }
   }
 
   void switchScreen() {
@@ -82,7 +94,9 @@ class _QuizState
               ? StartScreen(
                   switchScreen,
                 )
-              : QuestionsScreen(onSelectAnswer: chooseAnser,),
+              : QuestionsScreen(
+                  onSelectAnswer: chooseAnser,
+                ),
         ),
       ),
     );
