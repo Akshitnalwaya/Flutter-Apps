@@ -3,27 +3,16 @@ import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/questions_screen.dart';
 import 'package:quiz_app/start_screen.dart';
 
-class Quiz
-    extends
-        StatefulWidget {
-  const Quiz({
-    super.key,
-  });
+class Quiz extends StatefulWidget {
+  const Quiz({super.key});
 
   @override
-  State<
-    Quiz
-  >
-  createState() {
+  State<Quiz> createState() {
     return _QuizState();
   }
 }
 
-class _QuizState
-    extends
-        State<
-          Quiz
-        > {
+class _QuizState extends State<Quiz> {
   var activeScreen = 'start-screen';
 
   // @override
@@ -32,71 +21,42 @@ class _QuizState
   //   super.initState();
   // }
 
-  List<
-    String
-  >
-  selectedAnswers = [];
+  List<String> selectedAnswers = [];
 
-  void chooseAnser(
-    String answer,
-  ) {
-    selectedAnswers.add(
-      answer,
-    );
-    if (selectedAnswers.length ==
-        questions.length) {
-      setState(
-        () {
-          selectedAnswers = [];
-          activeScreen = 'start-screen';
-        },
-      );
+  void chooseAnser(String answer) {
+    selectedAnswers.add(answer);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        selectedAnswers = [];
+        activeScreen = 'result-screen';
+      });
     }
   }
 
   void switchScreen() {
-    setState(
-      () {
-        activeScreen = 'question-screen';
-      },
-    );
+    setState(() {
+      activeScreen = 'question-screen';
+    });
   }
 
+
+
+
   @override
-  Widget build(
-    context,
-  ) {
+  Widget build(context) {
+
     return MaterialApp(
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(
-                  255,
-                  45,
-                  15,
-                  96,
-                ),
-                Color.fromARGB(
-                  255,
-                  128,
-                  82,
-                  208,
-                ),
-              ],
+              colors: [Color.fromARGB(255, 45, 15, 96), Color.fromARGB(255, 128, 82, 208)],
               begin: Alignment.bottomRight,
             ),
           ),
-          child:
-              activeScreen ==
-                  'start-screen'
-              ? StartScreen(
-                  switchScreen,
-                )
-              : QuestionsScreen(
-                  onSelectAnswer: chooseAnser,
-                ),
+          child: activeScreen == 'start-screen'
+              ? StartScreen(switchScreen)
+              : QuestionsScreen(onSelectAnswer: chooseAnser),
         ),
       ),
     );
