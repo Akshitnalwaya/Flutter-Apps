@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
   const QuestionsScreen({
@@ -39,10 +40,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           children: [
             Text(
               currentQuestion.text,
-              style: TextStyle(
+              style: GoogleFonts.oswald(
+                fontSize: 25,
                 color: Colors.amberAccent,
-                fontSize: 20,
+                fontWeight: FontWeight.bold
               ),
+              
               textAlign: TextAlign.center,
             ),
             const SizedBox(
