@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/questions_screen.dart';
 import 'package:quiz_app/start_screen.dart';
+import 'package:quiz_app/result_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -13,21 +14,14 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  var activeScreen = 'start-screen';
-
-  // @override
-  // void initState() {
-  //   activeScreen = StartScreen(switchScreen);
-  //   super.initState();
-  // }
-
+  String activeScreen = 'start-screen';
   List<String> selectedAnswers = [];
 
-  void chooseAnser(String answer) {
+  void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
+
     if (selectedAnswers.length == questions.length) {
       setState(() {
-        selectedAnswers = [];
         activeScreen = 'result-screen';
       });
     }
@@ -39,24 +33,44 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-
-
+  void restartQuiz() {
+    setState(() {
+      selectedAnswers = [];
+      activeScreen = 'start-screen';
+    });
+  }
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
+    Widget screenWidget;
+
+    if (activeScreen == 'start-screen') {
+      screenWidget = StartScreen(switchScreen);
+    } else if (activeScreen == 'question-screen') {
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    } else {
+      screenWidget = ResultScreen(
+        selectedAnswers: selectedAnswers,
+        onRestart: restartQuiz,
+      );
+    }
 
     return MaterialApp(
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color.fromARGB(255, 45, 15, 96), Color.fromARGB(255, 128, 82, 208)],
+              colors: [
+                Color.fromARGB(255, 45, 15, 96),
+                Color.fromARGB(255, 128, 82, 208),
+              ],
               begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
             ),
           ),
-          child: activeScreen == 'start-screen'
-              ? StartScreen(switchScreen)
-              : QuestionsScreen(onSelectAnswer: chooseAnser),
+          child: screenWidget,
         ),
       ),
     );
