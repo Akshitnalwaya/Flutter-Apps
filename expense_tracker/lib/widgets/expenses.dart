@@ -25,6 +25,12 @@ class _ExpensesState extends State<Expenses> {
       date: DateTime.now(),
       category: Category.travel
       ),
+    Expense(
+      title: 'FS-V-0.1.3',
+      amountl: 350,
+      date: DateTime.now(),
+      category: Category.travel
+      ),
 
   ];
 
