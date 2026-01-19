@@ -9,23 +9,15 @@ class ExpensItemm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
           children: [
-            Text(
-              expense.title
-            ),
-            const SizedBox(height: 4,),
+            Text(expense.title),
+            const SizedBox(height: 4),
             Row(
               children: [
-                Text(
-                  '\$ ${expense.amountl.toStringAsFixed(2)} '
-                ),
+                Text('\$ ${expense.amountl.toStringAsFixed(2)} '),
                 const Spacer(),
                 Row(
                   children: [
@@ -34,11 +26,10 @@ class ExpensItemm extends StatelessWidget {
                     const SizedBox(width: 9),
                     // Text(expense.date.toIso8601String())
                     Text(expense.formattedDate),
-
                   ],
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
