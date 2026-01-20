@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:expense_tracker/models/expense.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -29,6 +30,31 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+  Category _selectedCategory = Category.lesiure;
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsValid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty || amountIsValid || _selectedDate == null) {
+      // error messages
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Alert !!!"),
+          content: Text("Fields are not updated to the requiments "),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text("Thank ypu"),
+            ),
+          ],
+        ),
+      );
+      return;
+    } else {}
   }
 
   @override
@@ -66,15 +92,31 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_selectedDate == null ?formatter.format(_todayDate) : formatter.format(_selectedDate!)),
+                    Text(_selectedDate == null ? formatter.format(_todayDate) : formatter.format(_selectedDate!)),
                     IconButton(onPressed: _presentDatePicker, icon: const Icon(Icons.calendar_month_sharp)),
                   ],
                 ),
               ),
             ],
           ),
+          SizedBox(height: 16),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toUpperCase())))
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                },
+              ),
+              const Spacer(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -83,8 +125,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
+                  _submitExpenseData();
                 },
                 child: const Text("Save expense"),
               ),
