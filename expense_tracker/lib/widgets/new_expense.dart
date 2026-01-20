@@ -1,4 +1,4 @@
-import 'dart:async';
+// import 'dart:async';
 
 import 'package:expense_tracker/models/expense.model.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _NewExpenseState extends State<NewExpense> {
       firstDate: fDate,
       lastDate: lDate,
     );
-    print(pickedDate);
+    // print(pickedDate);
     setState(() {
       _selectedDate = pickedDate;
     });
@@ -100,7 +100,7 @@ class _NewExpenseState extends State<NewExpense> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     label: Text("Amount"),
-                    prefixText: "₹ ",
+                    prefixText: '\$ ',
                   ),
                 ),
               ),
