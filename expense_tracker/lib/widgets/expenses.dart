@@ -15,19 +15,19 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
-      title: 'FS',
+      title: 'Delhi to Mumbai',
       amountl: 300,
-      date: DateTime.now(),
+      date: DateTime(2026, 1, 15),
       category: Category.travel,
     ),
     Expense(
-      title: 'FS-V-0.1.2',
+      title: 'Endgame',
       amountl: 310,
-      date: DateTime.now(),
-      category: Category.travel,
+      date: DateTime(2026, 1, 18),
+      category: Category.lesiure,
     ),
     Expense(
-      title: 'FS-V-0.1.3',
+      title: 'Mumbai to delhi',
       amountl: 350,
       date: DateTime.now(),
       category: Category.travel,
@@ -49,13 +49,39 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void removeExpens(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 2),
+        content: const Text("Expense Deleted "),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text("No data Found Add something ..."),
+    );
+
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpense: removeExpens,
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Expense Tracker"),
@@ -66,7 +92,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text("The chart"),
-          Expanded(child: ExpensesList(expenses: _registeredExpenses,onRemoveExpense: removeExpens,)),
+          Expanded(child: mainContent),
         ],
       ),
     );
