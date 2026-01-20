@@ -18,48 +18,48 @@ class _ExpensesState extends State<Expenses> {
       title: 'FS',
       amountl: 300,
       date: DateTime.now(),
-      category: Category.travel
-      ),
+      category: Category.travel,
+    ),
     Expense(
       title: 'FS-V-0.1.2',
       amountl: 310,
       date: DateTime.now(),
-      category: Category.travel
-      ),
+      category: Category.travel,
+    ),
     Expense(
       title: 'FS-V-0.1.3',
       amountl: 350,
       date: DateTime.now(),
-      category: Category.travel
-      ),
-
+      category: Category.travel,
+    ),
   ];
 
-  void _openAddExpenseOverlay(){
+  void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => const NewExpense()
+      builder: (ctx) => NewExpense(onAddExpens: _addExpense,),
     );
   }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Expense Tracker"),
+        title: Text("Expense Tracker"),
         actions: [
-          IconButton(
-            onPressed: _openAddExpenseOverlay, icon: Icon(Icons.add)
-          )
+          IconButton(onPressed: _openAddExpenseOverlay, icon: Icon(Icons.add)),
         ],
       ),
       body: Column(
         children: [
-          const Text(
-            "The chart"
-          ),
-          Expanded(
-            child: ExpensesList(expenses: _registeredExpenses)
-          )
+          const Text("The chart"),
+          Expanded(child: ExpensesList(expenses: _registeredExpenses)),
         ],
       ),
     );

@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMEd();
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
-
+  const NewExpense({super.key, required this.onAddExpens});
+  final void Function(Expense expens) onAddExpens;
   @override
   State<StatefulWidget> createState() {
     return _NewExpenseState();
@@ -25,7 +25,11 @@ class _NewExpenseState extends State<NewExpense> {
   final fDate = DateTime(2000, 12, 30);
   final lDate = DateTime(2050, 1, 30);
   void _presentDatePicker() async {
-    final pickedDate = await showDatePicker(context: context, firstDate: fDate, lastDate: lDate);
+    final pickedDate = await showDatePicker(
+      context: context,
+      firstDate: fDate,
+      lastDate: lDate,
+    );
     print(pickedDate);
     setState(() {
       _selectedDate = pickedDate;
@@ -36,7 +40,9 @@ class _NewExpenseState extends State<NewExpense> {
   void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsValid = enteredAmount == null || enteredAmount <= 0;
-    if (_titleController.text.trim().isEmpty || amountIsValid || _selectedDate == null) {
+    if (_titleController.text.trim().isEmpty ||
+        amountIsValid ||
+        _selectedDate == null) {
       // error messages
       showDialog(
         context: context,
@@ -54,7 +60,8 @@ class _NewExpenseState extends State<NewExpense> {
         ),
       );
       return;
-    } else {}
+    }
+    widget.onAddExpens(Expense(title: _titleController.text, amountl: enteredAmount, date: (_selectedDate!), category: _selectedCategory));
   }
 
   @override
@@ -83,7 +90,10 @@ class _NewExpenseState extends State<NewExpense> {
                 child: TextField(
                   controller: _amountController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(label: Text("Amount"), prefixText: "₹ "),
+                  decoration: InputDecoration(
+                    label: Text("Amount"),
+                    prefixText: "₹ ",
+                  ),
                 ),
               ),
               SizedBox(width: 13),
@@ -92,8 +102,15 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_selectedDate == null ? formatter.format(_todayDate) : formatter.format(_selectedDate!)),
-                    IconButton(onPressed: _presentDatePicker, icon: const Icon(Icons.calendar_month_sharp)),
+                    Text(
+                      _selectedDate == null
+                          ? formatter.format(_todayDate)
+                          : formatter.format(_selectedDate!),
+                    ),
+                    IconButton(
+                      onPressed: _presentDatePicker,
+                      icon: const Icon(Icons.calendar_month_sharp),
+                    ),
                   ],
                 ),
               ),
@@ -105,7 +122,12 @@ class _NewExpenseState extends State<NewExpense> {
               DropdownButton(
                 value: _selectedCategory,
                 items: Category.values
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toUpperCase())))
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name.toUpperCase()),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) {
                   if (value == null) {
