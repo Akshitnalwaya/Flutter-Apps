@@ -54,7 +54,7 @@ class _NewExpenseState extends State<NewExpense> {
               onPressed: () {
                 Navigator.pop(ctx);
               },
-              child: const Text("Thank ypu"),
+              child: const Text("Thank you"),
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.model.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
+import 'package:expense_tracker/data/database_helper.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -13,26 +14,20 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [
-    Expense(
-      title: 'Delhi to Mumbai',
-      amountl: 300,
-      date: DateTime(2026, 1, 15),
-      category: Category.travel,
-    ),
-    Expense(
-      title: 'Endgame',
-      amountl: 310,
-      date: DateTime(2026, 1, 18),
-      category: Category.lesiure,
-    ),
-    Expense(
-      title: 'Mumbai to delhi',
-      amountl: 350,
-      date: DateTime.now(),
-      category: Category.travel,
-    ),
-  ];
+  List<Expense> _registeredExpenses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExpenses();
+  }
+
+  void _loadExpenses() async {
+    final expenses = await DatabaseHelper.instance.queryAllRows();
+    setState(() {
+      _registeredExpenses = expenses;
+    });
+  }
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
@@ -42,17 +37,20 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
-  void _addExpense(Expense expense) {
+  void _addExpense(Expense expense) async {
+    await DatabaseHelper.instance.insert(expense);
     setState(() {
       _registeredExpenses.add(expense);
     });
   }
 
-  void removeExpens(Expense expense) {
+  void removeExpens(Expense expense) async {
     final expenseIndex = _registeredExpenses.indexOf(expense);
+    await DatabaseHelper.instance.delete(expense.id);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    if (!mounted) return;
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -60,7 +58,8 @@ class _ExpensesState extends State<Expenses> {
         content: const Text("Expense Deleted "),
         action: SnackBarAction(
           label: 'Undo',
-          onPressed: () {
+          onPressed: () async {
+            await DatabaseHelper.instance.insert(expense);
             setState(() {
               _registeredExpenses.insert(expenseIndex, expense);
             });
