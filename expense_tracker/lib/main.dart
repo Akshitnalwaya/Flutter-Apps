@@ -25,6 +25,18 @@ void main() {
           color: kColorsScheme.secondary,
           margin: EdgeInsets.all(16),
           shadowColor: Colors.black12
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                // backgroundColor: kColorsScheme.onPrimary
+                backgroundColor: kColorsScheme.onSecondary,
+                shadowColor: const Color.fromARGB(255, 7, 45, 66),
+                elevation: 10
+                
+            ),
+        ),
+        textTheme: ThemeData().textTheme.copyWith(
+            
         )
       ),
       home: Expenses(),
