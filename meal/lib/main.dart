@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meal/screens/categeory.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -21,8 +22,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: theme,
-      home: Text("H1")
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.deepOrangeAccent,
+        )
+      ),
+      home: CategeoryScreen()
     );
   }
 }
