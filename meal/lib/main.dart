@@ -30,7 +30,7 @@ class App extends StatelessWidget {
           backgroundColor: Colors.deepOrangeAccent,
         )
       ),
-      home: MealsScreen(title: "Yess sir ",meals: dummyMeals,)
+      home: CategeoryScreen()
     );
   }
 }
