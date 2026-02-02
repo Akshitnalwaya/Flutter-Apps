@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:meal/models/meal.dart';
+import 'package:meal/screens/details.dart';
 import 'package:meal/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealsItems extends StatelessWidget {
-  const MealsItems({super.key, required this.meal});
+  const MealsItems({super.key, required this.meal, required this.onSelectMeal});
 
   final Meal meal;
+  final void Function(Meal meal) onSelectMeal;
 
   String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
         meal.complexity.name.substring(1);
   }
 
-    String get affordabilityText {
+  String get affordabilityText {
     return meal.affordability.name[0].toUpperCase() +
         meal.affordability.name.substring(1);
   }
@@ -26,7 +28,9 @@ class MealsItems extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 3,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onSelectMeal(meal);
+        },
         child: Stack(
           children: [
             FadeInImage(
@@ -59,7 +63,7 @@ class MealsItems extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MealItemTrait(
                           icon: Icons.schedule,
@@ -74,7 +78,7 @@ class MealsItems extends StatelessWidget {
                         MealItemTrait(
                           icon: Icons.attach_money_outlined,
                           label: affordabilityText,
-                        ),                        
+                        ),
                       ],
                     ),
                   ],
