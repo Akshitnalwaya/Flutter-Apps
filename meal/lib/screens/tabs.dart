@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meal/models/meal.dart';
 import 'package:meal/screens/categeory.dart';
+import 'package:meal/screens/filter.dart';
 import 'package:meal/screens/meals.dart';
+import 'package:meal/widgets/side_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -30,13 +32,24 @@ class _TabsScreenState extends State<TabsScreen> {
 
   void _meesage(String mess) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(mess),     duration: Duration(microseconds: 15),));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mess), duration: Duration(microseconds: 15)),
+    );
   }
 
   void _selectPage(int index) {
     setState(() {
       selectedPageIndex = index;
     });
+  }
+
+  void _setScreen(String identifier) {
+          Navigator.of(context).pop();
+    if (identifier == 'filter') {
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (ctx) => FilterScreen()));
+    }
   }
 
   @override
@@ -53,6 +66,7 @@ class _TabsScreenState extends State<TabsScreen> {
     }
     return Scaffold(
       appBar: AppBar(title: Text(activePageTitle)),
+      drawer: SideDrawer(onSelecetMeal: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
